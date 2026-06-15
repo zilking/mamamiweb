@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAMAMI — L'entraide vérifiée entre mamans solos</title>
+  <meta name="description" content="Communauté vérifiée de mamans solos en Île-de-France. Garde d'enfants, coups de main, soutien moral. Chaque membre interviewée personnellement.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS ─── */
+    :root {
+      --bg:        #FAF8F5;
+      --bg-dark:   #0F0E17;
+      --violet:    #8B6FBE;
+      --violet-hv: #7A5FB0;
+      --lavender:  #F0EBF8;
+      --blush:     #FDE8E8;
+      --text:      #1A1A2E;
+      --muted:     #6B6B80;
+      --border:    #E8E3F0;
+      --white:     #FFFFFF;
+      --r:         16px;
+      --r-pill:    999px;
+      --shadow:    0 4px 24px rgba(139,111,190,.10);
+      --shadow-sm: 0 2px 12px rgba(26,26,46,.07);
+      --f-serif:   'Playfair Display', Georgia, serif;
+      --f-sans:    'Inter', -apple-system, sans-serif;
+      --ease:      220ms ease;
+    }
+
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--f-sans); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.65; overflow-x: hidden; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button { border: none; background: none; cursor: pointer; font: inherit; }
+    input { font: inherit; }
+
+    /* ─── LAYOUT ─── */
+    .container { width: min(1100px, 100% - 2.5rem); margin-inline: auto; }
+
+    /* ─── TYPOGRAPHY ─── */
+    h1, h2, h3 { font-family: var(--f-serif); font-weight: 700; line-height: 1.15; letter-spacing: -.01em; }
+    h1 { font-size: clamp(2.4rem, 5.5vw, 3.8rem); }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
+    h3 { font-size: clamp(1.15rem, 1.8vw, 1.4rem); font-weight: 600; }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .78rem 1.8rem; border-radius: var(--r-pill);
+      font-family: var(--f-sans); font-size: .9rem; font-weight: 600;
+      transition: background var(--ease), box-shadow var(--ease), transform var(--ease), color var(--ease), border-color var(--ease);
+    }
+    .btn-primary { background: var(--violet); color: var(--white); }
+    .btn-primary:hover { background: var(--violet-hv); box-shadow: 0 6px 20px rgba(139,111,190,.36); transform: translateY(-1px); }
+    .btn-ghost { background: transparent; color: var(--violet); border: 2px solid var(--violet); }
+    .btn-ghost:hover { background: var(--lavender); transform: translateY(-1px); }
+    .btn-white { background: var(--white); color: var(--violet); font-weight: 700; }
+    .btn-white:hover { background: var(--lavender); box-shadow: 0 6px 20px rgba(0,0,0,.15); transform: translateY(-1px); }
+    .btn-lg { padding: .95rem 2.2rem; font-size: 1rem; }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s cubic-bezier(.22,.68,0,1.2), transform .65s cubic-bezier(.22,.68,0,1.2); }
+    .reveal.in { opacity: 1; transform: none; }
+    .d1 { transition-delay: .08s; }
+    .d2 { transition-delay: .16s; }
+    .d3 { transition-delay: .24s; }
+
+    /* ─── NAV ─── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--white);
+      box-shadow: 0 1px 0 rgba(0,0,0,.06);
+    }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+    .logo { display: flex; align-items: center; font-family: var(--f-serif); font-size: 1.35rem; font-weight: 700; color: var(--text); }
+    .nav__toggle { display: none; flex-direction: column; gap: 5px; width: 26px; padding: 2px; }
+    .nav__toggle span { display: block; height: 2px; background: var(--text); border-radius: 2px; transition: all var(--ease); }
+    .nav__toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav__toggle.open span:nth-child(2) { opacity: 0; }
+    .nav__toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── BOTANICAL HELPERS ─── */
+    .bot { position: absolute; pointer-events: none; }
+
+    /* ─── OVERLINE ─── */
+    .overline {
+      display: inline-block; font-size: .72rem; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--violet); margin-bottom: .9rem;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: calc(70px + 5rem) 0 5rem;
+      min-height: 95vh; display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    .hero__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4.5rem; align-items: center; }
+    .hero__content { position: relative; z-index: 1; }
+    .hero__headline { color: var(--text); margin-bottom: .9rem; }
+    .hero__subline {
+      font-family: var(--f-serif); font-style: italic; font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+      font-weight: 400; color: var(--violet); margin-bottom: 1.4rem; line-height: 1.3;
+    }
+    .hero__body { font-size: 1.02rem; color: var(--muted); max-width: 460px; margin-bottom: 2.2rem; line-height: 1.75; }
+    .hero__actions { display: flex; flex-wrap: wrap; gap: .85rem; margin-bottom: 2rem; }
+    .hero__proof { display: flex; align-items: center; gap: .85rem; }
+    .hero__avatars { display: flex; }
+    .hero__avatar { width: 32px; height: 32px; border-radius: 50%; border: 2.5px solid var(--white); margin-left: -8px; flex-shrink: 0; }
+    .hero__avatars .hero__avatar:first-child { margin-left: 0; }
+    .hero__proof-text { font-size: .82rem; color: var(--muted); }
+
+    .hero__visual { position: relative; display: flex; align-items: center; justify-content: center; min-height: 440px; }
+    .hero__circle {
+      width: 380px; height: 380px; border-radius: 50%;
+      background: linear-gradient(145deg, var(--lavender) 0%, #C4B5FD 50%, var(--blush) 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+      box-shadow: 0 24px 60px rgba(139,111,190,.18);
+    }
+    .hero__circle-inner {
+      width: 340px; height: 340px; border-radius: 50%;
+      overflow: hidden;
+    }
+    .hero__blob { position: absolute; border-radius: 50%; filter: blur(40px); opacity: .55; }
+    .hero__blob--1 { width: 200px; height: 200px; background: rgba(139,111,190,.2); top: -20px; right: -20px; }
+    .hero__blob--2 { width: 160px; height: 160px; background: rgba(253,232,232,.9); bottom: 20px; left: 10px; }
+
+    /* ─── PROBLEM ─── */
+    .problem { background: var(--bg); padding: 6rem 0; }
+    .problem__header { text-align: center; margin-bottom: 3.5rem; }
+    .problem__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .prob-card {
+      background: var(--white); border-radius: var(--r);
+      padding: 2.2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+      transition: transform var(--ease), box-shadow var(--ease);
+    }
+    .prob-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .prob-card__icon { margin-bottom: 1.2rem; }
+    .prob-card p { color: var(--muted); font-size: .95rem; line-height: 1.65; }
+
+    /* ─── DIFFERENTIATORS ─── */
+    .diff { background: var(--lavender); padding: 6rem 0; position: relative; overflow: hidden; }
+    .diff__header { text-align: center; margin-bottom: 3.5rem; }
+    .diff__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .diff-card {
+      background: var(--white); border-radius: var(--r);
+      padding: 2.4rem; box-shadow: var(--shadow-sm); border: 1px solid rgba(139,111,190,.1);
+      transition: transform var(--ease), box-shadow var(--ease);
+    }
+    .diff-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .diff-card__icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--lavender); display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.3rem;
+    }
+    .diff-card h3 { margin-bottom: .6rem; color: var(--text); font-size: 1.25rem; }
+    .diff-card p { color: var(--muted); font-size: .9rem; line-height: 1.65; }
+
+    /* ─── STATS ─── */
+    .stats { background: var(--white); padding: 6rem 0; }
+    .stats__header { text-align: center; margin-bottom: 3.5rem; }
+    .stats__row {
+      display: grid; grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center; gap: 0; margin-bottom: 2.5rem;
+    }
+    .stat-item { text-align: center; padding: 1.5rem 2rem; }
+    .stat-item__value {
+      font-family: var(--f-serif); font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; color: var(--violet); line-height: 1; margin-bottom: .45rem;
+    }
+    .stat-item__label { font-size: .82rem; color: var(--muted); font-weight: 500; line-height: 1.4; }
+    .stat-divider { width: 1px; height: 60px; background: var(--lavender); }
+    .stats__note { text-align: center; color: var(--muted); font-size: .95rem; max-width: 580px; margin: 0 auto; line-height: 1.7; }
+
+    /* ─── CTA BANNER ─── */
+    .banner { background: var(--violet); padding: 5rem 0; position: relative; overflow: hidden; }
+    .banner::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 80% 50%, rgba(196,181,253,.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .banner__grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center; position: relative; z-index: 1; }
+    .banner__visual { display: flex; justify-content: center; }
+    .banner__circle {
+      width: 240px; height: 240px; border-radius: 50%;
+      background: linear-gradient(145deg, rgba(255,255,255,.18) 0%, rgba(196,181,253,.3) 100%);
+      border: 2px solid rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .banner__content { color: var(--white); }
+    .banner__content h2 { color: var(--white); margin-bottom: .85rem; }
+    .banner__content p { color: rgba(255,255,255,.8); margin-bottom: 2rem; font-size: 1.02rem; line-height: 1.7; }
+
+    /* ─── FORM SECTION ─── */
+    .form-section { background: var(--bg); padding: 6rem 0; }
+    .form-section__inner { max-width: 620px; margin: 0 auto; text-align: center; }
+    .form-section__inner h2 { margin-bottom: .75rem; }
+    .form-section__inner > p { color: var(--muted); margin-bottom: 2.5rem; font-size: 1.02rem; }
+
+    .waitlist-form { width: 100%; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-input {
+      padding: .88rem 1.2rem; width: 100%;
+      border: 1.5px solid var(--border); border-radius: var(--r);
+      font-size: .95rem; color: var(--text); background: var(--white);
+      transition: border-color var(--ease), box-shadow var(--ease); outline: none;
+    }
+    .form-input:focus { border-color: var(--violet); box-shadow: 0 0 0 3px rgba(139,111,190,.1); }
+    .form-input::placeholder { color: #B0AEC0; }
+    .form-submit { width: 100%; margin-bottom: .9rem; }
+    .form-note { font-size: .78rem; color: var(--muted); }
+
+    .form-success { display: none; background: var(--lavender); border-radius: var(--r); padding: 2.2rem; text-align: center; }
+    .form-success.visible { display: block; }
+    .form-success__emoji { font-size: 2.2rem; margin-bottom: .75rem; }
+    .form-success p { color: var(--violet); font-weight: 600; font-size: 1.05rem; line-height: 1.5; }
+
+    /* ─── VIDE TON CŒUR ─── */
+    .vide-coeur { background: var(--white); padding: 6rem 0; }
+    .vide-coeur__inner { max-width: 600px; margin: 0 auto; text-align: center; }
+    .vide-coeur__inner h2 { margin-bottom: .75rem; }
+    .vide-coeur__sub { color: var(--muted); font-size: 1.02rem; line-height: 1.75; margin-bottom: 2.2rem; }
+    .vide-form { width: 100%; text-align: left; }
+    .vide-form .form-input { margin-bottom: 1rem; }
+    .form-label-block { display: flex; flex-direction: column; gap: .3rem; margin-bottom: 1rem; }
+    .form-label-block label { font-size: .78rem; font-weight: 600; color: var(--text); letter-spacing: .04em; text-transform: uppercase; }
+    .form-select {
+      padding: .88rem 1.2rem; width: 100%;
+      border: 1.5px solid var(--border); border-radius: var(--r);
+      font-size: .95rem; color: var(--text); background: var(--white);
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238B6FBE' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 1rem center;
+      transition: border-color var(--ease), box-shadow var(--ease); outline: none; cursor: pointer;
+    }
+    .form-select:focus { border-color: var(--violet); box-shadow: 0 0 0 3px rgba(139,111,190,.1); }
+    .form-textarea {
+      padding: .88rem 1.2rem; width: 100%;
+      border: 1.5px solid var(--border); border-radius: var(--r);
+      font-size: .95rem; color: var(--text); background: var(--white);
+      resize: vertical; line-height: 1.65;
+      transition: border-color var(--ease), box-shadow var(--ease); outline: none;
+      margin-bottom: 1rem;
+    }
+    .form-textarea:focus { border-color: var(--violet); box-shadow: 0 0 0 3px rgba(139,111,190,.1); }
+    .form-textarea::placeholder { color: #B0AEC0; }
+    .form-checkbox-row {
+      display: flex; align-items: flex-start; gap: .75rem;
+      margin-bottom: 1.2rem; text-align: left;
+    }
+    .form-checkbox-row input[type="checkbox"] {
+      flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px;
+      accent-color: var(--violet); cursor: pointer;
+    }
+    .form-checkbox-row label { font-size: .8rem; color: var(--muted); line-height: 1.5; cursor: pointer; }
+    .form-checkbox-row a { color: var(--violet); text-decoration: underline; text-underline-offset: 2px; }
+    .vide-form__promise { font-size: .82rem; font-style: italic; color: var(--muted); text-align: center; margin-top: .75rem; }
+    .vide-success { display: none; background: var(--lavender); border-radius: var(--r); padding: 2.2rem; text-align: center; margin-top: 1rem; }
+    .vide-success.visible { display: block; }
+    .vide-success__emoji { font-size: 2.2rem; margin-bottom: .75rem; }
+    .vide-success p { color: var(--violet); font-weight: 600; font-size: 1.05rem; line-height: 1.5; }
+
+    /* ─── FOOTER ─── */
+    .footer { background: var(--bg-dark); padding: 3rem 0; }
+    .footer__grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 1.5rem; }
+    .footer__email { text-align: center; }
+    .footer__email a { color: rgba(255,255,255,.65); font-size: .88rem; transition: color var(--ease); }
+    .footer__email a:hover { color: var(--white); }
+    .footer__right { display: flex; flex-direction: column; align-items: flex-end; gap: .6rem; }
+    .lang-toggle { display: flex; border: 1.5px solid rgba(255,255,255,.2); border-radius: var(--r-pill); overflow: hidden; }
+    .lang-btn { padding: .4rem 1rem; font-size: .8rem; font-weight: 600; color: rgba(255,255,255,.5); transition: background var(--ease), color var(--ease); }
+    .lang-btn.active { background: var(--violet); color: var(--white); }
+    .footer__copy { color: rgba(255,255,255,.28); font-size: .78rem; text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.08); }
+
+    /* ─── BACK TO TOP ─── */
+    .back-top {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 90;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--violet); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(139,111,190,.35);
+      opacity: 0; transform: translateY(12px);
+      transition: opacity var(--ease), transform var(--ease), background var(--ease);
+      pointer-events: none;
+    }
+    .back-top.visible { opacity: 1; transform: none; pointer-events: auto; }
+    .back-top:hover { background: var(--violet-hv); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .hero { padding-top: calc(70px + 3rem); min-height: auto; }
+      .hero__grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hero__visual { order: -1; min-height: 300px; }
+      .hero__circle { width: 280px; height: 280px; }
+      .hero__circle-inner { width: 248px; height: 248px; }
+      .hero__content { text-align: center; }
+      .hero__body { max-width: 100%; }
+      .hero__actions { justify-content: center; }
+      .hero__proof { justify-content: center; }
+      .problem__grid, .diff__grid { grid-template-columns: 1fr; }
+      .banner__grid { grid-template-columns: 1fr; }
+      .banner__visual { display: none; }
+      .footer__grid { grid-template-columns: 1fr; text-align: center; }
+      .footer__right { align-items: center; }
+      .stats__row { grid-template-columns: 1fr; gap: 1.5rem; }
+      .stat-divider { display: none; }
+    }
+    @media (max-width: 620px) {
+      .nav__toggle { display: flex; }
+      .nav__cta-desktop { display: none; }
+      .hero__actions { flex-direction: column; }
+      .hero__actions .btn { width: 100%; justify-content: center; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 621px) {
+      .nav__toggle { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav" id="nav">
+  <div class="container nav__inner">
+    <a href="#" class="logo" aria-label="MAMAMI">
+      <img src="assets/logo-mamami.png" alt="MAMAMI logo" style="height:48px;width:auto;object-fit:contain;">
+      <span data-i18n="logo">MAMAMI</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <div style="display:flex;align-items:center;background:#F0EBF8;border-radius:50px;padding:3px;gap:2px;">
+        <button id="btn-fr" onclick="setLang('fr')" style="border:none;cursor:pointer;padding:6px 16px;border-radius:50px;font-size:13px;font-weight:600;font-family:Inter,sans-serif;background:#8B6FBE;color:white;transition:all 0.2s;">FR</button>
+        <button id="btn-en" onclick="setLang('en')" style="border:none;cursor:pointer;padding:6px 16px;border-radius:50px;font-size:13px;font-weight:600;font-family:Inter,sans-serif;background:transparent;color:#8B6FBE;transition:all 0.2s;">EN</button>
+      </div>
+      <a href="#vide-ton-coeur" class="btn btn-primary nav__cta-desktop" data-i18n="nav-cta">Rejoindre la liste d'attente</a>
+    </div>
+    <button class="nav__toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="accueil">
+  <!-- Botanical left -->
+  <svg class="bot" style="top:110px;left:-28px;width:115px;opacity:.28" viewBox="0 0 115 200" fill="none" aria-hidden="true">
+    <path d="M57 192 Q10 152 18 90 Q32 28 57 8 Q82 28 96 90 Q104 152 57 192Z" stroke="#8B6FBE" stroke-width="1.2" fill="none"/>
+    <line x1="57" y1="192" x2="57" y2="8" stroke="#8B6FBE" stroke-width=".8" stroke-dasharray="3 4"/>
+    <path d="M57 78 Q40 68 34 52" stroke="#8B6FBE" stroke-width=".8"/>
+    <path d="M57 108 Q74 98 80 82" stroke="#8B6FBE" stroke-width=".8"/>
+    <path d="M57 138 Q40 128 34 112" stroke="#8B6FBE" stroke-width=".8"/>
+  </svg>
+  <!-- Dot grid -->
+  <svg class="bot" style="top:80px;right:50px;width:80px;opacity:.22" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+    <g fill="#8B6FBE" fill-opacity=".6">
+      <circle cx="8" cy="8" r="2.5"/><circle cx="24" cy="8" r="2.5"/><circle cx="40" cy="8" r="2.5"/><circle cx="56" cy="8" r="2.5"/>
+      <circle cx="8" cy="24" r="2.5"/><circle cx="24" cy="24" r="2.5"/><circle cx="40" cy="24" r="2.5"/>
+      <circle cx="8" cy="40" r="2.5"/><circle cx="24" cy="40" r="2.5"/>
+    </g>
+  </svg>
+
+  <div class="container hero__grid">
+    <div class="hero__content">
+      <h1 class="hero__headline reveal" data-i18n="hero-headline">Aucune maman ne devrait tout porter seule.</h1>
+      <p class="hero__subline reveal d1" data-i18n="hero-subline">Ensemble, on se soutient.</p>
+      <p class="hero__body reveal d2" data-i18n="hero-body">MAMAMI est une communauté vérifiée de mamans solos qui s'entraident au quotidien — garde d'enfants, coups de main, soutien moral. Chaque membre passe par un entretien et est vérifiée individuellement.</p>
+      <div class="hero__actions reveal d3">
+        <a href="#vide-ton-coeur" class="btn btn-primary btn-lg" data-i18n="hero-cta">Rejoindre la liste d'attente</a>
+        <a href="#probleme" class="btn btn-ghost btn-lg" data-i18n="hero-more">En savoir plus</a>
+      </div>
+      <div class="hero__proof reveal" style="transition-delay:.32s">
+        <div class="hero__avatars">
+          <div class="hero__avatar" style="background:#C4B5FD;"></div>
+          <div class="hero__avatar" style="background:#FBCFE8;"></div>
+          <div class="hero__avatar" style="background:#A5B4FC;"></div>
+          <div class="hero__avatar" style="background:#FDE68A;"></div>
+        </div>
+        <span class="hero__proof-text" data-i18n="hero-proof">+ de 40 mamans déjà inscrites en Île-de-France 🤍</span>
+      </div>
+    </div>
+
+    <div class="hero__visual reveal d1">
+      <div class="hero__blob hero__blob--1"></div>
+      <div class="hero__blob hero__blob--2"></div>
+      <div class="hero__circle">
+        <div class="hero__circle-inner">
+          <img src="assets/photo-hero.jpg" alt="Zeynep et son fils" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+        </div>
+      </div>
+      <!-- small leaf -->
+      <svg class="bot" style="right:-18px;top:38%;width:44px;opacity:.5" viewBox="0 0 44 88" fill="none" aria-hidden="true">
+        <path d="M22 84 Q4 64 8 40 Q14 14 22 4 Q30 14 36 40 Q40 64 22 84Z" stroke="#C4B5FD" stroke-width="1.3" fill="#F0EBF8" fill-opacity=".4"/>
+        <line x1="22" y1="84" x2="22" y2="4" stroke="#C4B5FD" stroke-width=".8" stroke-dasharray="2 3"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROBLEM ═══ -->
+<section class="problem" id="probleme">
+  <svg class="bot" style="right:-20px;top:20px;width:100px;opacity:.16" viewBox="0 0 100 160" fill="none" aria-hidden="true">
+    <path d="M50 150 Q10 118 18 68 Q30 20 50 5 Q70 20 82 68 Q90 118 50 150Z" stroke="#8B6FBE" stroke-width="1.2" fill="none"/>
+    <line x1="50" y1="150" x2="50" y2="5" stroke="#8B6FBE" stroke-width=".7" stroke-dasharray="3 4"/>
+  </svg>
+  <div class="container">
+    <div class="problem__header reveal">
+      <span class="overline" data-i18n="prob-overline">Tu te reconnais ?</span>
+      <h2 data-i18n="prob-title">Ces moments où tu gères tout seule</h2>
+    </div>
+    <div class="problem__grid">
+
+      <!-- Card 1: clock -->
+      <div class="prob-card reveal d1">
+        <div class="prob-card__icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#8B6FBE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="24" cy="24" r="18"/>
+            <line x1="24" y1="8" x2="24" y2="14"/>
+            <line x1="24" y1="34" x2="24" y2="42"/>
+            <line x1="8" y1="24" x2="14" y2="24"/>
+            <line x1="34" y1="24" x2="40" y2="24"/>
+            <line x1="24" y1="24" x2="24" y2="16"/>
+            <line x1="24" y1="24" x2="17" y2="21"/>
+          </svg>
+        </div>
+        <p data-i18n="prob-1">Les imprévus arrivent toujours au mauvais moment — et tu gères seule.</p>
+      </div>
+
+      <!-- Card 2: handbag -->
+      <div class="prob-card reveal d2">
+        <div class="prob-card__icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M18 18c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#8B6FBE" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <rect x="11" y="18" width="26" height="20" rx="4" stroke="#8B6FBE" stroke-width="1.8" fill="none"/>
+            <path d="M11 26h26" stroke="#8B6FBE" stroke-width="1.4" stroke-linecap="round"/>
+            <circle cx="24" cy="22" r="2" stroke="#8B6FBE" stroke-width="1.4" fill="none"/>
+            <path d="M22 22h4" stroke="#8B6FBE" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p data-i18n="prob-2">Les solutions coûtent cher. Les proches sont loin. L'aide ne vient pas.</p>
+      </div>
+
+      <!-- Card 3: community network -->
+      <div class="prob-card reveal d3">
+        <div class="prob-card__icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#8B6FBE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="24" cy="10" r="5"/>
+            <circle cx="10" cy="34" r="5"/>
+            <circle cx="38" cy="34" r="5"/>
+            <path d="M21 14 Q14 18 13 29"/>
+            <path d="M27 14 Q34 18 35 29"/>
+            <path d="M15 34 Q24 40 33 34"/>
+          </svg>
+        </div>
+        <p data-i18n="prob-3">Tu n'as pas besoin d'une aide parfaite. Tu as besoin d'une communauté.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DIFF ═══ -->
+<section class="diff" id="differences">
+  <svg class="bot" style="left:-18px;bottom:40px;width:88px;opacity:.32" viewBox="0 0 88 160" fill="none" aria-hidden="true">
+    <path d="M44 152 Q8 118 15 72 Q26 25 44 8 Q62 25 73 72 Q80 118 44 152Z" stroke="#8B6FBE" stroke-width="1.2" fill="#C4B5FD" fill-opacity=".18"/>
+    <line x1="44" y1="152" x2="44" y2="8" stroke="#8B6FBE" stroke-width=".8" stroke-dasharray="3 4"/>
+    <path d="M44 65 Q29 56 25 42" stroke="#8B6FBE" stroke-width=".8"/>
+    <path d="M44 95 Q59 86 63 72" stroke="#8B6FBE" stroke-width=".8"/>
+    <path d="M44 122 Q29 113 25 99" stroke="#8B6FBE" stroke-width=".8"/>
+  </svg>
+  <svg class="bot" style="right:28px;top:28px;width:68px;opacity:.28" viewBox="0 0 68 68" fill="none" aria-hidden="true">
+    <g fill="#8B6FBE">
+      <circle cx="8" cy="8" r="3"/><circle cx="24" cy="8" r="3"/><circle cx="40" cy="8" r="3"/>
+      <circle cx="8" cy="24" r="3"/><circle cx="24" cy="24" r="3"/>
+      <circle cx="8" cy="40" r="3"/>
+    </g>
+  </svg>
+  <div class="container">
+    <div class="diff__header reveal">
+      <span class="overline" data-i18n="diff-overline">Notre différence</span>
+      <h2 data-i18n="diff-title">Pas un groupe Facebook.<br>Une vraie communauté.</h2>
+    </div>
+    <div class="diff__grid">
+      <div class="diff-card reveal d1">
+        <div class="diff-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B6FBE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <h3 data-i18n="diff-1-title">Vérifiée</h3>
+        <p data-i18n="diff-1-body">Chaque membre est interviewée personnellement avant d'intégrer la communauté. Tu sais à qui tu fais confiance.</p>
+      </div>
+      <div class="diff-card reveal d2">
+        <div class="diff-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B6FBE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <h3 data-i18n="diff-2-title">Locale</h3>
+        <p data-i18n="diff-2-body">Des mamans près de chez toi, disponibles au quotidien, qui comprennent ta réalité et ton quartier.</p>
+      </div>
+      <div class="diff-card reveal d3">
+        <div class="diff-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B6FBE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <h3 data-i18n="diff-3-title">Fondée sur l'entraide</h3>
+        <p data-i18n="diff-3-body">Pas de paiement. Pas de hiérarchie. On s'entraide avec les Mamains — notre monnaie d'entraide communautaire.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS ═══ -->
+<section class="stats" id="lancement">
+  <div class="container">
+    <div class="stats__header reveal">
+      <span class="overline" data-i18n="stats-overline">En construction ensemble</span>
+      <h2 data-i18n="stats-title">Tu seras parmi les premières.</h2>
+    </div>
+    <div class="stats__row reveal d1">
+      <div class="stat-item">
+        <div class="stat-item__value" style="font-size:2.2rem;white-space:nowrap;">Île-de-France</div>
+        <div class="stat-item__label" data-i18n="stats-label-1">zone de lancement</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-item__value">100%</div>
+        <div class="stat-item__label" data-i18n="stats-label-2">membres vérifiées personnellement</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-item__value">Gratuit</div>
+        <div class="stat-item__label" data-i18n="stats-label-3">pour toujours pour les premières membres</div>
+      </div>
+    </div>
+    <p class="stats__note reveal d2" data-i18n="stats-note">MAMAMI est en phase de lancement. En t'inscrivant aujourd'hui, tu shapes la communauté avec nous.</p>
+  </div>
+</section>
+
+<!-- ═══ VIDE TON CŒUR ═══ -->
+<section class="vide-coeur" id="vide-ton-coeur">
+  <div class="container">
+    <div class="vide-coeur__inner reveal">
+      <span class="overline" data-i18n="vide-overline">Un espace rien que pour toi</span>
+      <h2 data-i18n="vide-title">Vide ton cœur.</h2>
+      <p class="vide-coeur__sub" data-i18n="vide-sub">Tu n'as pas besoin de te justifier. Pas besoin d'être forte. Écris-nous ce que tu vis — une vraie maman solo lira chaque message.</p>
+      <form class="vide-form" id="videForm" name="vide-ton-coeur" method="POST" action="/success.html" netlify>
+        <input class="form-input" type="email" name="email" placeholder="Ton adresse email" required data-i18n-placeholder="form-ph-email">
+        <div class="form-row">
+          <div class="form-label-block">
+            <label for="nombre-enfants" data-i18n="vide-label-enfants">Nombre d'enfants</label>
+            <select class="form-select" id="nombre-enfants" name="nombre-enfants" required>
+              <option value="" disabled selected></option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4+">4+</option>
+            </select>
+          </div>
+          <div class="form-label-block">
+            <label for="age-enfant" data-i18n="vide-label-age">Âge du plus jeune</label>
+            <select class="form-select" id="age-enfant" name="age-enfant" required>
+              <option value="" disabled selected></option>
+              <option value="0-2 ans">0–2 ans</option>
+              <option value="3-5 ans">3–5 ans</option>
+              <option value="6-10 ans">6–10 ans</option>
+              <option value="11-15 ans">11–15 ans</option>
+              <option value="16+ ans">16+ ans</option>
+            </select>
+          </div>
+        </div>
+        <textarea class="form-textarea" name="message" rows="4" placeholder="Ce que tu portes en ce moment... (personne ne te juge ici)" required data-i18n-placeholder="vide-ph-message"></textarea>
+        <div class="form-checkbox-row">
+          <input type="checkbox" id="rgpd-vide" name="rgpd" required>
+          <label for="rgpd-vide"><span data-i18n="vide-rgpd">J'accepte que mes données soient utilisées uniquement par MAMAMI. Elles ne seront jamais partagées.</span> <a href="politique-de-confidentialite.html" style="color:#8B6FBE;">Politique de confidentialité</a>.</label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg form-submit" data-i18n="vide-btn">Envoyer à Zeynep 🤍</button>
+        <p class="vide-form__promise" data-i18n="vide-promise">Une vraie maman solo lira ton message. Promis.</p>
+      </form>
+      <div class="vide-success" id="videSuccess">
+        <div class="vide-success__emoji">🤍</div>
+        <p>Merci pour ta confiance. Ton message a été reçu — on te lit avec attention.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BANNER ═══ -->
+<section class="banner" id="communaute">
+  <svg class="bot" style="right:50px;bottom:30px;width:80px;opacity:.18" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+    <g fill="white">
+      <circle cx="8" cy="8" r="2.5"/><circle cx="24" cy="8" r="2.5"/><circle cx="40" cy="8" r="2.5"/><circle cx="56" cy="8" r="2.5"/>
+      <circle cx="8" cy="24" r="2.5"/><circle cx="24" cy="24" r="2.5"/><circle cx="40" cy="24" r="2.5"/>
+      <circle cx="8" cy="40" r="2.5"/><circle cx="24" cy="40" r="2.5"/>
+    </g>
+  </svg>
+  <svg class="bot" style="left:24px;top:-8px;width:68px;opacity:.18" viewBox="0 0 68 120" fill="none" aria-hidden="true">
+    <path d="M34 114 Q6 86 12 52 Q21 18 34 5 Q47 18 56 52 Q62 86 34 114Z" stroke="white" stroke-width="1.2" fill="white" fill-opacity=".12"/>
+    <line x1="34" y1="114" x2="34" y2="5" stroke="white" stroke-width=".8" stroke-dasharray="3 4"/>
+  </svg>
+  <div class="container banner__grid">
+    <div class="banner__visual">
+      <div style="width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <img src="assets/logo-mamami.png" alt="MAMAMI" style="width:160px;height:160px;object-fit:contain;">
+      </div>
+    </div>
+    <div class="banner__content reveal">
+      <h2 data-i18n="banner-title">Rejoins une communauté qui te comprend</h2>
+      <p data-i18n="banner-body">Inscris-toi gratuitement. Rejoins les premières mamans MAMAMI en Île-de-France.</p>
+      <a href="#vide-ton-coeur" class="btn btn-white btn-lg" data-i18n="banner-cta">Je rejoins MAMAMI →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__logo">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <img src="assets/logo-mamami.png" alt="MAMAMI" style="height: 36px; width: auto; object-fit: contain;">
+          <span style="font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:700;color:white;letter-spacing:.04em;">MAMAMI</span>
+        </div>
+      </div>
+    </div>
+    <p class="footer__copy" data-i18n="footer-copy">© 2026 MAMAMI — Tous droits réservés</p>
+  </div>
+</footer>
+
+<!-- ═══ BACK TO TOP ═══ -->
+<button class="back-top" id="backTop" aria-label="Retour en haut">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round">
+    <path d="M9 14V4"/><path d="M4 8l5-5 5 5"/>
+  </svg>
+</button>
+
+<script>
+/* ─── TRANSLATIONS ─── */
+const T = {
+  fr: {
+    'logo':          'MAMAMI',
+    'nav-cta':       "Rejoindre la liste d'attente",
+    'hero-headline': 'Aucune maman ne devrait tout porter seule.',
+    'hero-subline':  'Ensemble, on se soutient.',
+    'hero-body':     "MAMAMI est une communauté vérifiée de mamans solos qui s'entraident au quotidien — garde d'enfants, coups de main, soutien moral. Chaque membre passe par un entretien et est vérifiée individuellement.",
+    'hero-cta':      "Rejoindre la liste d'attente",
+    'hero-more':     'En savoir plus',
+    'hero-proof':    '+ de 40 mamans déjà inscrites en Île-de-France 🤍',
+    'prob-overline': 'Tu te reconnais ?',
+    'prob-title':    'Ces moments où tu gères tout seule',
+    'prob-1':        "Les imprévus arrivent toujours au mauvais moment — et tu gères seule.",
+    'prob-2':        "Les solutions coûtent cher. Les proches sont loin. L'aide ne vient pas.",
+    'prob-3':        "Tu n'as pas besoin d'une aide parfaite. Tu as besoin d'une communauté.",
+    'diff-overline': 'Notre différence',
+    'diff-title':    'Pas un groupe Facebook. Une vraie communauté.',
+    'diff-1-title':  'Vérifiée',
+    'diff-1-body':   "Chaque membre est interviewée personnellement avant d'intégrer la communauté. Tu sais à qui tu fais confiance.",
+    'diff-2-title':  'Locale',
+    'diff-2-body':   "Des mamans près de chez toi, disponibles au quotidien, qui comprennent ta réalité et ton quartier.",
+    'diff-3-title':  "Fondée sur l'entraide",
+    'diff-3-body':   "Pas de paiement. Pas de hiérarchie. On s'entraide avec les Mamains — notre monnaie d'entraide communautaire.",
+    'banner-title':  'Rejoins une communauté qui te comprend',
+    'banner-body':   'Inscris-toi gratuitement. Rejoins les premières mamans MAMAMI en Île-de-France.',
+    'banner-cta':    'Je rejoins MAMAMI →',
+    'form-overline': "Liste d'attente",
+    'form-title':    "Rejoins la liste d'attente",
+    'form-sub':      'Sois parmi les premières à accéder à MAMAMI. Gratuit. Sans engagement.',
+    'form-ph-prenom':'Ton prénom',
+    'form-ph-email': 'Ton adresse email',
+    'form-btn':      'Je rejoins MAMAMI 🤍',
+    'form-note':     'Gratuit. Pas de spam. Tu peux te désinscrire à tout moment.',
+    'stats-overline': 'En construction ensemble',
+    'stats-title':    'Tu seras parmi les premières.',
+    'stats-label-1':  'zone de lancement',
+    'stats-label-2':  'membres vérifiées personnellement',
+    'stats-label-3':  'pour toujours pour les premières membres',
+    'stats-note':     "MAMAMI est en phase de lancement. En t'inscrivant aujourd'hui, tu shapes la communauté avec nous.",
+    'vide-overline':  'Un espace rien que pour toi',
+    'vide-title':     'Vide ton cœur.',
+    'vide-sub':       "Tu n'as pas besoin de te justifier. Pas besoin d'être forte. Écris-nous ce que tu vis — une vraie maman solo lira chaque message.",
+    'vide-label-enfants': "Nombre d'enfants",
+    'vide-label-age': 'Âge du plus jeune',
+    'vide-ph-message':'Ce que tu portes en ce moment... (personne ne te juge ici)',
+    'vide-rgpd':      "J'accepte que mes données soient utilisées uniquement par MAMAMI. Elles ne seront jamais partagées.",
+    'vide-btn':       'Envoyer à Zeynep 🤍',
+    'vide-promise':   'Une vraie maman solo lira ton message. Promis.',
+    'footer-copy':   '© 2026 MAMAMI — Tous droits réservés',
+    'success':       (n) => `Merci ${n} ! Tu es sur la liste 🤍 On te contacte très bientôt.`
+  },
+  en: {
+    'logo':          'MAMAMI',
+    'nav-cta':       'Join the waitlist',
+    'hero-headline': 'No mother should carry everything alone.',
+    'hero-subline':  'Together, we lift each other up.',
+    'hero-body':     'MAMAMI is a verified community of solo mothers who support each other daily — childcare, helping hands, emotional support. Every member is personally interviewed and verified.',
+    'hero-cta':      'Join the waitlist',
+    'hero-more':     'Learn more',
+    'hero-proof':    '+ 40 mothers already registered in Île-de-France 🤍',
+    'prob-overline': 'Do you recognise yourself?',
+    'prob-title':    'Those moments when you handle everything alone',
+    'prob-1':        "Unexpected situations always happen at the worst time — and you handle them alone.",
+    'prob-2':        "Solutions are expensive. Family is far away. Help doesn't come.",
+    'prob-3':        "You don't need perfect help. You need a community.",
+    'diff-overline': 'Our difference',
+    'diff-title':    'Not a Facebook group. A real community.',
+    'diff-1-title':  'Verified',
+    'diff-1-body':   "Every member is personally interviewed before joining the community. You know who you're trusting.",
+    'diff-2-title':  'Local',
+    'diff-2-body':   "Mothers near you, available daily, who understand your reality and your neighbourhood.",
+    'diff-3-title':  'Built on mutual aid',
+    'diff-3-body':   "No payment. No hierarchy. We help each other with Mamains — our community mutual-aid currency.",
+    'banner-title':  'Join a community that understands you',
+    'banner-body':   'Sign up for free. Join the first MAMAMI mothers in Île-de-France.',
+    'banner-cta':    "I'm joining MAMAMI →",
+    'form-overline': 'Waitlist',
+    'form-title':    'Join the waitlist',
+    'form-sub':      'Be among the first to access MAMAMI. Free. No commitment.',
+    'form-ph-prenom':'Your first name',
+    'form-ph-email': 'Your email address',
+    'form-btn':      "I'm joining MAMAMI 🤍",
+    'form-note':     'Free. No spam. You can unsubscribe at any time.',
+    'stats-overline': 'Building together',
+    'stats-title':    "You'll be among the first.",
+    'stats-label-1':  'launch zone',
+    'stats-label-2':  'personally verified members',
+    'stats-label-3':  'forever for founding members',
+    'stats-note':     'MAMAMI is in launch phase. By signing up today, you shape the community with us.',
+    'vide-overline':  'A space just for you',
+    'vide-title':     'Empty your heart.',
+    'vide-sub':       "You don't need to justify yourself. You don't need to be strong. Write to us what you're going through — a real solo mom will read every message.",
+    'vide-label-enfants': 'Number of children',
+    'vide-label-age': 'Age of youngest',
+    'vide-ph-message': "What you're carrying right now... (no one judges you here)",
+    'vide-rgpd':      'I agree that my data will be used only by MAMAMI. It will never be shared.',
+    'vide-btn':       'Send to Zeynep 🤍',
+    'vide-promise':   'A real solo mom will read your message. Promise.',
+    'footer-copy':   '© 2026 MAMAMI — All rights reserved',
+    'success':       (n) => `Thank you ${n}! You're on the list 🤍 We'll be in touch very soon.`
+  }
+};
+
+let currentLang = 'fr';
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] && typeof t[key] === 'string') el.textContent = t[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    if (t[key]) el.placeholder = t[key];
+  });
+  const btnFr = document.getElementById('btn-fr');
+  const btnEn = document.getElementById('btn-en');
+  btnFr.style.background = lang === 'fr' ? '#8B6FBE' : 'transparent';
+  btnFr.style.color      = lang === 'fr' ? 'white'   : '#8B6FBE';
+  btnEn.style.background = lang === 'en' ? '#8B6FBE' : 'transparent';
+  btnEn.style.color      = lang === 'en' ? 'white'   : '#8B6FBE';
+  document.documentElement.lang = lang;
+}
+
+/* ─── BACK TO TOP ─── */
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => {
+  backTop.classList.toggle('visible', window.scrollY > 300);
+}, { passive: true });
+backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+/* ─── MOBILE NAV ─── */
+const navToggle = document.getElementById('navToggle');
+navToggle.addEventListener('click', () => {
+  const open = navToggle.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', String(open));
+});
+
+/* ─── SCROLL REVEAL ─── */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+
+</script>
+</body>
+</html>
