@@ -1,185 +1,297 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Fondatrice — MAMAMI</title>
-    <meta name="description"
-        content="Découvrez l'histoire de la fondatrice de MAMAMI et pourquoi elle a créé cette communauté d'entraide vérifiée pour mamans solos en Île-de-France.">
-    <meta name="theme-color" content="#C4704B">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>">
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À propos de moi — MAMAMI</title>
+  <meta name="description" content="Zeynep, fondatrice de MAMAMI, raconte pourquoi elle a créé une communauté vérifiée de mamans solos en Île-de-France.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS ─── */
+    :root {
+      --bg:        #FAF8F5;
+      --bg-dark:   #0F0E17;
+      --violet:    #8B6FBE;
+      --violet-hv: #7A5FB0;
+      --lavender:  #F0EBF8;
+      --blush:     #FDE8E8;
+      --text:      #1A1A2E;
+      --muted:     #6B6B80;
+      --border:    #E8E3F0;
+      --white:     #FFFFFF;
+      --r-pill:    999px;
+      --f-serif:   'Playfair Display', Georgia, serif;
+      --f-sans:    'Inter', -apple-system, sans-serif;
+      --ease:      220ms ease;
+    }
 
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--f-sans); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.65; overflow-x: hidden; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { border: none; background: none; cursor: pointer; font: inherit; }
+
+    .container { width: min(1100px, 100% - 2.5rem); margin-inline: auto; }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .78rem 1.8rem; border-radius: var(--r-pill);
+      font-family: var(--f-sans); font-size: .9rem; font-weight: 600;
+      transition: background var(--ease), box-shadow var(--ease), transform var(--ease);
+    }
+    .btn-primary { background: var(--violet); color: var(--white); }
+    .btn-primary:hover { background: var(--violet-hv); box-shadow: 0 6px 20px rgba(139,111,190,.36); transform: translateY(-1px); }
+
+    /* ─── NAV ─── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--white);
+      box-shadow: 0 1px 0 rgba(0,0,0,.06);
+    }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+    .logo { display: flex; align-items: center; font-family: var(--f-serif); font-size: 1.35rem; font-weight: 700; color: var(--text); }
+    .nav__toggle { display: none; flex-direction: column; gap: 5px; width: 26px; padding: 2px; }
+    .nav__toggle span { display: block; height: 2px; background: var(--text); border-radius: 2px; transition: all var(--ease); }
+    .nav__toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav__toggle.open span:nth-child(2) { opacity: 0; }
+    .nav__toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 620px) {
+      .nav__toggle { display: flex; }
+      .nav__cta-desktop { display: none; }
+    }
+    @media (min-width: 621px) {
+      .nav__toggle { display: none; }
+    }
+
+    /* ─── FOOTER ─── */
+    .footer { background: var(--bg-dark); padding: 3rem 0; }
+    .footer__grid { display: flex; justify-content: center; align-items: center; }
+    .footer__copy { color: rgba(255,255,255,.28); font-size: .78rem; text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.08); }
+
+    /* ─── PAGE CONTENT ─── */
+    .fond-main { max-width: 720px; margin: 0 auto; padding: 60px 20px; padding-top: calc(70px + 60px); }
+    .fond-eyebrow {
+      display: block; font-family: var(--f-sans); font-size: 13px; font-weight: 600;
+      letter-spacing: 4px; text-transform: uppercase; color: var(--violet);
+      text-align: center; margin-bottom: 1.5rem;
+    }
+    .fond-h1 {
+      font-family: var(--f-serif); font-weight: 700; font-size: 42px;
+      color: var(--text); text-align: center; margin-bottom: 8px; line-height: 1.2;
+    }
+    .fond-p { font-family: var(--f-sans); font-size: 17px; line-height: 1.9; color: #374151; margin-bottom: 24px; }
+    .fond-italic-center { font-family: var(--f-serif); font-style: italic; font-size: 20px; text-align: center; color: var(--text); margin-bottom: 24px; }
+    .fond-italic-left { font-family: var(--f-serif); font-style: italic; font-size: 20px; color: var(--text); margin-bottom: 24px; }
+    .fond-bold-violet-24c { font-family: var(--f-serif); font-weight: 700; font-size: 24px; color: var(--violet); text-align: center; margin-bottom: 40px; }
+    .fond-bold-violet-22 { font-family: var(--f-serif); font-weight: 700; font-size: 22px; color: var(--violet); margin-bottom: 40px; }
+    .fond-divider { height: 1px; background: #EDE9FE; border: none; margin: 40px 0; }
+    .fond-village { font-family: var(--f-serif); font-weight: 700; font-size: 32px; color: var(--violet); text-align: center; margin-top: 48px; }
+    .fond-bienvenue { font-family: var(--f-serif); font-style: italic; font-size: 20px; text-align: center; color: var(--text); margin-top: 16px; }
+    .fond-signature { text-align: right; font-style: italic; color: #6B7280; margin-top: 32px; }
+    .fond-btn-wrap { text-align: center; margin-top: 48px; }
+    .fond-btn {
+      display: inline-block; background: var(--violet); color: var(--white);
+      border-radius: 50px; padding: 16px 40px; font-size: 16px; font-weight: 600;
+      font-family: var(--f-sans);
+    }
+    .fond-btn:hover { background: var(--violet-hv); }
+  </style>
+</head>
 <body>
 
-    <!-- ===== NAVIGATION ===== -->
-    <nav class="nav" id="nav">
-        <div class="container nav__inner">
-            <a href="/" class="nav__logo">MAMA<span>MI</span></a>
-            <ul class="nav__links" id="navLinks">
-                <li><a href="fondatrice.html">La Fondatrice</a></li>
-                <li><a href="vision.html">Notre Vision</a></li>
-                <li><a href="index.html#rejoindre" class="nav__cta">Rejoindre ✦</a></li>
-            </ul>
-            <button class="nav__toggle" id="navToggle" aria-label="Menu">
-                <span></span><span></span><span></span>
-            </button>
+<!-- ═══ NAV ═══ -->
+<nav class="nav" id="nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="logo" aria-label="MAMAMI">
+      <img src="assets/logo-mamami.png" alt="MAMAMI logo" style="height:48px;width:auto;object-fit:contain;">
+      <span data-i18n="logo">MAMAMI</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+      <a href="fondatrice.html" style="font-family:var(--f-sans);font-size:.92rem;font-weight:500;color:var(--text);" data-i18n="nav-histoire">Notre histoire</a>
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <div style="display:flex;align-items:center;background:#F0EBF8;border-radius:50px;padding:3px;gap:2px;">
+          <button id="btn-fr" onclick="setLang('fr')" style="border:none;cursor:pointer;padding:6px 16px;border-radius:50px;font-size:13px;font-weight:600;font-family:Inter,sans-serif;background:#8B6FBE;color:white;transition:all 0.2s;">FR</button>
+          <button id="btn-en" onclick="setLang('en')" style="border:none;cursor:pointer;padding:6px 16px;border-radius:50px;font-size:13px;font-weight:600;font-family:Inter,sans-serif;background:transparent;color:#8B6FBE;transition:all 0.2s;">EN</button>
         </div>
-    </nav>
+        <a href="index.html#vide-ton-coeur" class="btn btn-primary nav__cta-desktop" data-i18n="nav-cta">Rejoindre la liste d'attente</a>
+      </div>
+    </div>
+    <button class="nav__toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-    <!-- ===== FOUNDER STORY ===== -->
-    <section class="story">
-        <div class="container">
-            <div class="story__content reveal">
-                <span class="label">La fondatrice</span>
-                <h1>Bonjour, je suis Zeynep.</h1>
-                <p class="story__lead">
-                    Je suis maman solo, et je vis à Puteaux. Comme beaucoup d'entre vous, j'ai connu cette sensation de
-                    vertige quand on réalise que l'on doit tout porter : la charge mentale, le travail, l'éducation, et
-                    l'imprévu qui vient tout bousculer.
-                </p>
-                <p class="story__lead">
-                    Un soir de fièvre, avec une réunion cruciale le lendemain matin à 8h et absolument personne pour
-                    m'aider, j'ai touché du doigt la réalité brutale de l'isolement parental en ville. Pas de famille à
-                    côté, pas de voisin à qui confier ses clés. Juste moi.
-                </p>
-            </div>
-        </div>
-    </section>
+<!-- ═══ MAIN ═══ -->
+<main class="fond-main">
+  <span class="fond-eyebrow" data-i18n="f-title">À propos de moi</span>
+  <h1 class="fond-h1" data-i18n="f-h1">Tu es peut-être aux toilettes en ce moment.</h1>
 
-    <!-- ===== THE WHY ===== -->
-    <section class="pillars" style="background: var(--color-bg-warm);">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="label">Le déclic</span>
-                <h2>Transformer la vulnérabilité en force</h2>
-            </div>
+  <p class="fond-p" data-i18n="f-p1">La seule pièce de la maison où personne ne te demande rien. Trente secondes volées entre deux urgences.</p>
+  <p class="fond-p" data-i18n="f-p2">Ou peut-être que tu regardes fixement la montagne de linge propre sur le canapé. Tu la regardes depuis trois jours. Elle te regarde aussi.</p>
+  <p class="fond-p" data-i18n="f-p3">Ou peut-être que tu viens de mettre ton enfant au lit après une bataille épuisante, et là tu contemples le sol du salon. Les jouets partout. Le puzzle à moitié fait. Le verre de jus renversé que tu as essuyé avec une chaussette parce que tu n'avais plus la force d'aller chercher une éponge.</p>
+  <p class="fond-p" data-i18n="f-p4">Ou peut-être que tu manges debout au-dessus de l'évier les restes du dîner de ton enfant parce que tu as oublié de te faire à manger à toi. Encore.</p>
+  <p class="fond-p" data-i18n="f-p5">Ou peut-être que tu as 47 messages non lus dans le groupe WhatsApp de l'école. Tu le sais. Tu n'as pas la force d'ouvrir.</p>
+  <p class="fond-p" data-i18n="f-p6">Ou peut-être que tu signes en catastrophe à 23h une autorisation parentale qui était due hier. En espérant que personne ne remarque la date.</p>
+  <p class="fond-p" data-i18n="f-p7">Ou peut-être que tu étais en visioconférence tout à l'heure, souriante, professionnelle, la caméra cadrée juste assez haut pour qu'on ne voie pas le chaos derrière toi.</p>
+  <p class="fond-p" data-i18n="f-p8">Ou peut-être que ce soir tes amies t'ont envoyé un message à 19h. « On sort, tu viens ? » Et toi tu as regardé ton téléphone, puis ton enfant, puis ton téléphone encore. Tu avais tellement besoin de cette soirée. De rire. D'être juste toi, pas maman. Mais il n'y avait personne à appeler. Alors tu as tapé « ah zut je peux pas ce soir » avec un petit emoji souriant. Et tu as posé ton téléphone. Et tu es restée là.</p>
+  <p class="fond-p" data-i18n="f-p9">Ou peut-être que ton enfant vient enfin de s'endormir et toi, épuisée mais incapable de dormir, tu t'es effondrée sur le canapé. Tu fais défiler ton téléphone sans vraiment regarder. Tu n'as plus d'énergie pour rien mais tu n'arrives pas à lâcher l'écran non plus. Tu scrolles. Tu scrolles encore. Jusqu'à ce que les yeux se ferment tout seuls.</p>
+  <p class="fond-p" data-i18n="f-p10">Ou peut-être que tu es dans les transports, debout, le sac trop lourd, et tu lis ça entre deux stations parce que c'est le seul moment de la journée où personne ne te parle.</p>
+  <p class="fond-p" data-i18n="f-p11">Ou peut-être que tu as juste vu un post qui t'a fait penser « c'est exactement ça » et tu as cliqué sans trop savoir pourquoi.</p>
 
-            <div class="story__content reveal" style="max-width: 720px; margin: var(--space-xl) auto 0;">
-                <p class="story__lead">
-                    Pendant longtemps, j'ai cru que demander de l'aide était un aveu d'échec. Que je devais être cette «
-                    super maman » qui gère la tempête en silence. Mais la perfection est un mythe épuisant.
-                </p>
-                <p class="story__lead">
-                    En discutant avec d'autres mamans à la sortie de l'école ou au parc de l'Île de Puteaux, j'ai
-                    réalisé une chose frappante : nous étions des dizaines à vivre exactement la même chose, à 500
-                    mètres d'écart. Nous étions toutes seules, séparément.
-                </p>
-                <p class="story__lead">
-                    Alors j'ai fait quelque chose de simple : j'ai créé un groupe WhatsApp avec 5 mamans du quartier. On
-                    s'est organisées. Lundi, c'est moi qui récupère tes enfants. Mercredi, c'est toi. On se relayait
-                    naturellement, comme si ça avait toujours existé.
-                </p>
-                <p class="story__lead">
-                    En trois semaines, ce petit groupe a changé ma vie. J'ai dormi une nuit complète pour la première
-                    fois en des mois. J'ai pu honorer un rendez-vous professionnel sans culpabilité. Et surtout, mes
-                    enfants avaient de nouveaux copains, et moi, de vraies alliées.
-                </p>
-                <p class="story__lead">
-                    C'est de là qu'est née l'idée de MAMAMI. Si 5 mamans sur un groupe WhatsApp pouvaient transformer
-                    nos quotidiens, que ferait un vrai réseau structuré, vérifié et bienveillant à l'échelle d'un
-                    quartier entier ?
-                </p>
+  <p class="fond-italic-center" data-i18n="f-peu-importe">Peu importe où tu es.</p>
+  <p class="fond-p" data-i18n="f-p12">Si tu lis ces lignes, c'est que quelque chose t'a amenée jusqu'ici. La curiosité peut-être. L'épuisement sûrement. Ou cette petite voix qui dit qu'il doit exister autre chose.</p>
+  <p class="fond-bold-violet-24c" data-i18n="f-bon-endroit">Tu es au bon endroit. Et tu n'es pas seule.</p>
 
-                <div class="story__quote" style="margin-top: calc(var(--space-xl) * 0.8);">
-                    <p>« Je ne veux plus jamais qu'une maman solo doive choisir entre son travail et son enfant par
-                        manque d'une main tendue. Notre meilleure ressource, c'est nous. »</p>
-                    <div
-                        style="margin-top: 1rem; font-weight: 600; font-size: 1.1rem; color: var(--color-primary); text-align: right;">
-                        — Zeynep</div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <hr class="fond-divider">
 
-    <!-- ===== FOUNDER VIDEO ===== -->
-    <section class="founder-video">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="label">En vidéo</span>
-                <h2>Mon histoire, en 3 minutes</h2>
-            </div>
+  <p class="fond-p" data-i18n="f-p13">Et pendant ce temps, il existe des dizaines d'applis pour que les femmes se retrouvent après le travail pour un apéro. Pour networker. Pour se faire des amies entre célibataires. C'est bien. Vraiment.</p>
+  <p class="fond-p" data-i18n="f-p14">Mais nous, les mamans, celles qui pourraient s'apporter quelque chose de concret et de précieux, celles dont l'entraide pourrait littéralement changer une journée, une semaine, une vie, nous n'avons rien. Pas d'espace vérifié. Pas de lieu de confiance. Juste des groupes Facebook où personne ne se connaît vraiment.</p>
+  <p class="fond-italic-left" data-i18n="f-pourquoi">Pourquoi les femmes sans enfants ont leurs applis de rencontres amicales et nous, on se débrouille seules?</p>
+  <p class="fond-bold-violet-22" data-i18n="f-existe">MAMAMI existe pour répondre à cette question.</p>
 
-            <div class="founder-video__wrapper reveal">
-                <div class="founder-video__placeholder">
-                    <div class="founder-video__play">▶</div>
-                    <p class="founder-video__caption">Vidéo bientôt disponible — La fondatrice raconte l'histoire de
-                        MAMAMI</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  <hr class="fond-divider">
 
-    <!-- ===== MY VISION ===== -->
-    <section style="background: var(--color-bg-warm);">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="label">Ma vision</span>
-                <h2>Ce que je crois profondément</h2>
-            </div>
+  <p class="fond-p" data-i18n="f-p15">Je m'appelle Zeynep. Je suis maman solo, turque, installée à Paris depuis quatre ans. Et je pourrais te raconter mon histoire de manière propre et organisée. Mais ce ne serait pas honnête.</p>
+  <p class="fond-p" data-i18n="f-p16">Alors voilà la vérité.</p>
+  <p class="fond-p" data-i18n="f-p17">Je suis arrivée en France avec ma famille, pleine d'espoir. En quelques mois, j'ai perdu mon travail. Puis mon mariage s'est terminé.</p>
+  <p class="fond-p" data-i18n="f-p18">La solitude ne ressemble pas toujours à ce qu'on imagine. Ce n'est pas forcément pleurer dans le noir. C'est cuisiner trop et n'avoir personne à qui donner l'assiette en trop. C'est chercher quelqu'un de confiance pour garder ton enfant deux heures, et réaliser que les options sont soit trop chères soit trop froides. C'est être entourée de gens et se sentir quand même invisible.</p>
+  <p class="fond-p" data-i18n="f-p19">Mon fils m'a sauvée, sans le savoir. C'est grâce à lui que j'ai rencontré d'autres parents à l'école. C'est par hasard que j'ai trouvé ma meilleure amie, maman d'un petit garçon d'un an. Son fils ne comprend pas encore ma langue. Mais il sait que je suis là. Il m'appelle « tata ». Parce que la chaleur, l'intention d'aider, la bienveillance, ça ne se traduit pas. Ça se ressent. Ce lien ne vient pas d'une appli. Il vient d'une porte qu'on a osé ouvrir.</p>
+  <p class="fond-p" data-i18n="f-p20">Mais pour chaque porte que j'ai réussi à ouvrir, je sais qu'il y en a cent qui restent fermées. Des femmes qui ce soir gèrent tout seules, sans se plaindre, sans demander. Pas parce qu'elles n'ont pas besoin d'aide. Parce qu'elles ne savent pas encore que l'aide existe.</p>
+  <p class="fond-p" data-i18n="f-p21">La fatigue d'une maman se ressemble à Paris, à Istanbul, dans chaque ville que tu n'as jamais visitée, dont tu ne connais même pas le nom, mais où une maman ce soir fait exactement la même chose que toi. On n'a pas besoin de parler la même langue pour se comprendre. On a juste besoin de se voir.</p>
+  <p class="fond-p" data-i18n="f-p22">Il faut tout un village pour élever un enfant. Mais ce village, on ne le construit pas sur une appli froide. On le construit en se rencontrant vraiment. En se faisant confiance. En tendant la main avant d'en avoir désespérément besoin.</p>
 
-            <div class="pillars__grid" style="margin-top: var(--space-xl);">
-                <div class="pillar reveal reveal-delay-1">
-                    <div class="pillar__icon">🤝</div>
-                    <h3>L'entraide, pas la charité</h3>
-                    <p>Chaque maman donne ET reçoit. Les Mamains garantissent l'équilibre. Personne ne doit se sentir
-                        redevable. C'est de la réciprocité, pas de la pitié.</p>
-                </div>
+  <p class="fond-village" data-i18n="f-village">MAMAMI, c'est ton village. Vérifié, local, humain.</p>
+  <p class="fond-bienvenue" data-i18n="f-bienvenue">Si toi aussi tu portes trop, tu es la bienvenue.</p>
+  <p class="fond-signature" data-i18n="f-signature">Zeynep, fondatrice de MAMAMI</p>
 
-                <div class="pillar reveal reveal-delay-2">
-                    <div class="pillar__icon">🛡️</div>
-                    <h3>La confiance avant tout</h3>
-                    <p>J'interviewe personnellement chaque nouvelle membre. C'est plus lent. C'est plus dur à scaler.
-                        Mais c'est la seule façon de construire un vrai village.</p>
-                </div>
+  <div class="fond-btn-wrap">
+    <a href="index.html#vide-ton-coeur" class="fond-btn" data-i18n="f-btn">Rejoindre le village 🤍</a>
+  </div>
+</main>
 
-                <div class="pillar reveal reveal-delay-3">
-                    <div class="pillar__icon">📍</div>
-                    <h3>Le quartier, pas le pays</h3>
-                    <p>10 mamans vérifiées à 10 minutes de chez vous, c'est infiniment plus précieux que 10 000
-                        dispersées partout en France. C'est pourquoi nous construisons quartier par quartier.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <img src="assets/logo-mamami.png" alt="MAMAMI" style="height: 36px; width: auto; object-fit: contain;">
+        <span style="font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:700;color:white;letter-spacing:.04em;">MAMAMI</span>
+      </div>
+    </div>
+    <p class="footer__copy" data-i18n="footer-copy">© 2026 MAMAMI — Tous droits réservés</p>
+  </div>
+</footer>
 
-    <!-- ===== CTA ===== -->
-    <section class="waitlist-cta">
-        <div class="container text-center">
-            <div class="reveal">
-                <h2>Envie de rejoindre le village ?</h2>
-                <p class="subtitle">Inscrivez-vous à la liste d'attente. Je vous recontacterai personnellement.</p>
-            </div>
-            <div class="reveal"
-                style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: var(--space-lg);">
-                <a href="index.html#rejoindre" class="btn btn--primary btn--large btn--glow">Rejoindre la liste
-                    d'attente ✦</a>
-                <a href="mailto:contact@mamami.fr" class="btn btn--secondary btn--large"
-                    style="border-color: rgba(255,255,255,0.3); color: var(--color-white);">M'écrire directement</a>
-            </div>
-        </div>
-    </section>
+<script>
+const T = {
+  fr: {
+    'logo':         'MAMAMI',
+    'nav-cta':      "Rejoindre la liste d'attente",
+    'nav-histoire': 'Notre histoire',
+    'footer-copy':  '© 2026 MAMAMI — Tous droits réservés',
+    'f-title':        'À propos de moi',
+    'f-h1':           'Tu es peut-être aux toilettes en ce moment.',
+    'f-p1':           "La seule pièce de la maison où personne ne te demande rien. Trente secondes volées entre deux urgences.",
+    'f-p2':           "Ou peut-être que tu regardes fixement la montagne de linge propre sur le canapé. Tu la regardes depuis trois jours. Elle te regarde aussi.",
+    'f-p3':           "Ou peut-être que tu viens de mettre ton enfant au lit après une bataille épuisante, et là tu contemples le sol du salon. Les jouets partout. Le puzzle à moitié fait. Le verre de jus renversé que tu as essuyé avec une chaussette parce que tu n'avais plus la force d'aller chercher une éponge.",
+    'f-p4':           "Ou peut-être que tu manges debout au-dessus de l'évier les restes du dîner de ton enfant parce que tu as oublié de te faire à manger à toi. Encore.",
+    'f-p5':           "Ou peut-être que tu as 47 messages non lus dans le groupe WhatsApp de l'école. Tu le sais. Tu n'as pas la force d'ouvrir.",
+    'f-p6':           "Ou peut-être que tu signes en catastrophe à 23h une autorisation parentale qui était due hier. En espérant que personne ne remarque la date.",
+    'f-p7':           "Ou peut-être que tu étais en visioconférence tout à l'heure, souriante, professionnelle, la caméra cadrée juste assez haut pour qu'on ne voie pas le chaos derrière toi.",
+    'f-p8':           "Ou peut-être que ce soir tes amies t'ont envoyé un message à 19h. « On sort, tu viens ? » Et toi tu as regardé ton téléphone, puis ton enfant, puis ton téléphone encore. Tu avais tellement besoin de cette soirée. De rire. D'être juste toi, pas maman. Mais il n'y avait personne à appeler. Alors tu as tapé « ah zut je peux pas ce soir » avec un petit emoji souriant. Et tu as posé ton téléphone. Et tu es restée là.",
+    'f-p9':           "Ou peut-être que ton enfant vient enfin de s'endormir et toi, épuisée mais incapable de dormir, tu t'es effondrée sur le canapé. Tu fais défiler ton téléphone sans vraiment regarder. Tu n'as plus d'énergie pour rien mais tu n'arrives pas à lâcher l'écran non plus. Tu scrolles. Tu scrolles encore. Jusqu'à ce que les yeux se ferment tout seuls.",
+    'f-p10':          "Ou peut-être que tu es dans les transports, debout, le sac trop lourd, et tu lis ça entre deux stations parce que c'est le seul moment de la journée où personne ne te parle.",
+    'f-p11':          "Ou peut-être que tu as juste vu un post qui t'a fait penser « c'est exactement ça » et tu as cliqué sans trop savoir pourquoi.",
+    'f-peu-importe':  'Peu importe où tu es.',
+    'f-p12':          "Si tu lis ces lignes, c'est que quelque chose t'a amenée jusqu'ici. La curiosité peut-être. L'épuisement sûrement. Ou cette petite voix qui dit qu'il doit exister autre chose.",
+    'f-bon-endroit':  "Tu es au bon endroit. Et tu n'es pas seule.",
+    'f-p13':          "Et pendant ce temps, il existe des dizaines d'applis pour que les femmes se retrouvent après le travail pour un apéro. Pour networker. Pour se faire des amies entre célibataires. C'est bien. Vraiment.",
+    'f-p14':          "Mais nous, les mamans, celles qui pourraient s'apporter quelque chose de concret et de précieux, celles dont l'entraide pourrait littéralement changer une journée, une semaine, une vie, nous n'avons rien. Pas d'espace vérifié. Pas de lieu de confiance. Juste des groupes Facebook où personne ne se connaît vraiment.",
+    'f-pourquoi':     "Pourquoi les femmes sans enfants ont leurs applis de rencontres amicales et nous, on se débrouille seules?",
+    'f-existe':       "MAMAMI existe pour répondre à cette question.",
+    'f-p15':          "Je m'appelle Zeynep. Je suis maman solo, turque, installée à Paris depuis quatre ans. Et je pourrais te raconter mon histoire de manière propre et organisée. Mais ce ne serait pas honnête.",
+    'f-p16':          "Alors voilà la vérité.",
+    'f-p17':          "Je suis arrivée en France avec ma famille, pleine d'espoir. En quelques mois, j'ai perdu mon travail. Puis mon mariage s'est terminé.",
+    'f-p18':          "La solitude ne ressemble pas toujours à ce qu'on imagine. Ce n'est pas forcément pleurer dans le noir. C'est cuisiner trop et n'avoir personne à qui donner l'assiette en trop. C'est chercher quelqu'un de confiance pour garder ton enfant deux heures, et réaliser que les options sont soit trop chères soit trop froides. C'est être entourée de gens et se sentir quand même invisible.",
+    'f-p19':          "Mon fils m'a sauvée, sans le savoir. C'est grâce à lui que j'ai rencontré d'autres parents à l'école. C'est par hasard que j'ai trouvé ma meilleure amie, maman d'un petit garçon d'un an. Son fils ne comprend pas encore ma langue. Mais il sait que je suis là. Il m'appelle « tata ». Parce que la chaleur, l'intention d'aider, la bienveillance, ça ne se traduit pas. Ça se ressent. Ce lien ne vient pas d'une appli. Il vient d'une porte qu'on a osé ouvrir.",
+    'f-p20':          "Mais pour chaque porte que j'ai réussi à ouvrir, je sais qu'il y en a cent qui restent fermées. Des femmes qui ce soir gèrent tout seules, sans se plaindre, sans demander. Pas parce qu'elles n'ont pas besoin d'aide. Parce qu'elles ne savent pas encore que l'aide existe.",
+    'f-p21':          "La fatigue d'une maman se ressemble à Paris, à Istanbul, dans chaque ville que tu n'as jamais visitée, dont tu ne connais même pas le nom, mais où une maman ce soir fait exactement la même chose que toi. On n'a pas besoin de parler la même langue pour se comprendre. On a juste besoin de se voir.",
+    'f-p22':          "Il faut tout un village pour élever un enfant. Mais ce village, on ne le construit pas sur une appli froide. On le construit en se rencontrant vraiment. En se faisant confiance. En tendant la main avant d'en avoir désespérément besoin.",
+    'f-village':      "MAMAMI, c'est ton village. Vérifié, local, humain.",
+    'f-bienvenue':    "Si toi aussi tu portes trop, tu es la bienvenue.",
+    'f-signature':    "Zeynep, fondatrice de MAMAMI",
+    'f-btn':          "Rejoindre le village 🤍"
+  },
+  en: {
+    'logo':         'MAMAMI',
+    'nav-cta':      'Join the waitlist',
+    'nav-histoire': 'Our story',
+    'footer-copy':  '© 2026 MAMAMI — All rights reserved',
+    'f-title':        'About me',
+    'f-h1':           "Maybe you're on the toilet right now.",
+    'f-p1':           "The only room in the house where nobody asks anything of you. Thirty seconds stolen between two emergencies.",
+    'f-p2':           "Or maybe you're staring at the mountain of clean laundry on the sofa. You've been staring at it for three days. It's staring back.",
+    'f-p3':           "Or maybe you just put your child to bed after an exhausting battle, and now you're looking at the living room floor. Toys everywhere. A half-finished puzzle. The juice glass you wiped up with a sock because you didn't have the strength to go get a sponge.",
+    'f-p4':           "Or maybe you're eating standing over the sink, finishing the leftovers from your child's dinner because you forgot to make something for yourself. Again.",
+    'f-p5':           "Or maybe you have 47 unread messages in the school WhatsApp group. You know. You don't have the strength to open it.",
+    'f-p6':           "Or maybe you're signing a permission slip at 11pm that was due yesterday. Hoping nobody notices the date.",
+    'f-p7':           "Or maybe you were on a video call earlier, smiling, professional, camera framed just high enough so nobody could see the chaos behind you.",
+    'f-p8':           "Or maybe tonight your friends texted you at 7pm. \"We're going out, coming?\" And you looked at your phone, then your child, then your phone again. You needed that evening so much. To laugh. To just be you, not mum. But there was nobody to call. So you typed \"ah sorry can't tonight\" with a little smiley emoji. And you put your phone down. And you stayed there.",
+    'f-p9':           "Or maybe your child has finally fallen asleep and you, exhausted but unable to sleep, collapsed on the sofa. You're scrolling through your phone without really looking. You have no energy for anything but you can't put the screen down either. You scroll. You scroll again. Until your eyes close on their own.",
+    'f-p10':          "Or maybe you're on the metro, standing, bag too heavy, reading this between two stops because it's the only moment of the day when nobody talks to you.",
+    'f-p11':          "Or maybe you just saw a post that made you think \"that's exactly it\" and you clicked without really knowing why.",
+    'f-peu-importe':  'Wherever you are.',
+    'f-p12':          "If you're reading these words, something brought you here. Curiosity maybe. Exhaustion certainly. Or that small voice saying there must be something else.",
+    'f-bon-endroit':  "You're in the right place. And you are not alone.",
+    'f-p13':          "Meanwhile, there are dozens of apps for women to meet after work for drinks. To network. To make friends as singles. That's great. Really.",
+    'f-p14':          "But us, mothers, the ones who could bring each other something concrete and precious, the ones whose solidarity could literally change a day, a week, a life — we have nothing. No verified space. No place of trust. Just Facebook groups where nobody really knows each other.",
+    'f-pourquoi':     "Why do women without children have their friendship apps and we figure it out alone?",
+    'f-existe':       "MAMAMI exists to answer that question.",
+    'f-p15':          "My name is Zeynep. I'm a solo mother, Turkish, living in Paris for four years. And I could tell you my story in a clean and organised way. But that wouldn't be honest.",
+    'f-p16':          "So here's the truth.",
+    'f-p17':          "I arrived in France with my family, full of hope. Within months, I lost my job. Then my marriage ended.",
+    'f-p18':          "Loneliness doesn't always look like what you imagine. It's not necessarily crying in the dark. It's cooking too much and having nobody to give the extra plate to. It's looking for someone you trust to watch your child for two hours, and realising the options are either too expensive or too cold. It's being surrounded by people and still feeling invisible.",
+    'f-p19':          "My son saved me, without knowing it. Through him I met other parents at his school. By chance I found my best friend, a mother of a one-year-old boy. Her son doesn't understand my language yet. But he knows I'm there. He calls me \"tata\". Because warmth, the intention to help, kindness — these don't need translation. They are felt. That connection didn't come from an app. It came from a door we dared to open.",
+    'f-p20':          "But for every door I managed to open, I know there are a hundred still closed. Women who tonight are managing everything alone, without complaining, without asking. Not because they don't need help. Because they don't yet know that help exists.",
+    'f-p21':          "A mother's exhaustion looks the same in Paris, in Istanbul, in every city you have never visited, whose name you don't even know, but where a mother tonight is doing exactly the same thing as you. We don't need to speak the same language to understand each other. We just need to see each other.",
+    'f-p22':          "It takes a village to raise a child. But that village isn't built on a cold app. It's built by truly meeting each other. By trusting each other. By reaching out a hand before you desperately need one.",
+    'f-village':      "MAMAMI is your village. Verified, local, human.",
+    'f-bienvenue':    "If you too are carrying too much, you are welcome here.",
+    'f-signature':    "Zeynep, founder of MAMAMI",
+    'f-btn':          "Join the village 🤍"
+  }
+};
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-        <div class="container footer__inner">
-            <a href="/" class="footer__logo">MAMAMI</a>
-            <ul class="footer__links">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="index.html#comment-ca-marche">Comment ça marche</a></li>
-                <li><a href="index.html#confiance">Confiance</a></li>
-                <li><a href="vision.html">Notre Vision</a></li>
-                <li><a href="politique-de-confidentialite.html">Politique de confidentialité</a></li>
-                <li><a href="mailto:contact@mamami.fr">Contact</a></li>
-            </ul>
-            <p class="footer__copy">© 2026 MAMAMI. Tous droits réservés. Communauté basée à Puteaux, Île-de-France.</p>
-        </div>
-    </footer>
+let currentLang = 'fr';
 
-    <script src="js/main.js"></script>
+function setLang(lang) {
+  currentLang = lang;
+  const t = T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] && typeof t[key] === 'string') el.textContent = t[key];
+  });
+  const btnFr = document.getElementById('btn-fr');
+  const btnEn = document.getElementById('btn-en');
+  btnFr.style.background = lang === 'fr' ? '#8B6FBE' : 'transparent';
+  btnFr.style.color      = lang === 'fr' ? 'white'   : '#8B6FBE';
+  btnEn.style.background = lang === 'en' ? '#8B6FBE' : 'transparent';
+  btnEn.style.color      = lang === 'en' ? 'white'   : '#8B6FBE';
+  document.documentElement.lang = lang;
+}
+
+const navToggle = document.getElementById('navToggle');
+navToggle.addEventListener('click', () => {
+  const open = navToggle.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', String(open));
+});
+</script>
 </body>
-
 </html>
